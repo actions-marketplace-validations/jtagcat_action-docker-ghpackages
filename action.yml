@@ -1,0 +1,6 @@
+name: 'Zero-config releases to Github Packages'
+description: 'Pushes Docker images of semantically versioned tags/releases to ghcr.io.' # Extended configuration available soon™
+author: jtagcat
+branding:
+  icon: package
+  color: blue
