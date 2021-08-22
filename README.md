@@ -8,3 +8,7 @@ Additional options available and explained in the action itself.
 
 ## Credits
 Adapted from Github Docs' [packaging example](https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions).
+
+***
+
+[Actions Reference](https://docs.github.com/en/actions/reference)
