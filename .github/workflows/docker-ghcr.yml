@@ -39,20 +39,25 @@ jobs:
 
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          
-          # trigger is tagged
+
+          # trigger is (hopefully semantically) tagged
           if [[ "${{ github.ref }}" == "refs/tags/"* ]]; then
+            # Strip +buildinfo
+            VERSION=$(cut -d+ -f1 <<< $VERSION)
             # Strip "v" prefix from tag name (v1.2.3 to 1.2.3)
-            VERSION=$(echo $VERSION | sed -e 's/^v//')
+            VERSION=$(sed -e 's/^v//' <<< $VERSION)
             
-            tag_push $VERSION # push patch (:1.2.3)
+            if [[ -z $(cut -sd- -f1 <<< $VERSION) ]]; then # Not a prerelease (not v0.1.2-rc4)
+              tag_push $VERSION # push patch (:1.2.3)
             
-            # push minor version (:1.2)
-            VERSION=$(cut -d. -f -2 <<< $VERSION)
-            tag_push $VERSION
+              # push minor version (:1.2)
+              VERSION=$(cut -d. -f -2 <<< $VERSION)
+              tag_push $VERSION
             
-            # major version (:1)
-            VERSION=$(cut -d. -f -1 <<< $VERSION)
+              # major version (:1)
+              VERSION=$(cut -d. -f -1 <<< $VERSION)
+            fi
+
           fi
           
           # push normally (and possibly major)
